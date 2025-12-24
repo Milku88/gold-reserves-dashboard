@@ -13,6 +13,18 @@ body {
   line-height: 1.6;
 }
 
+/* Logo MILK QUANT */
+.logo {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  z-index: 10;
+}
+
 /* Menu nawigacyjne */
 .navbar {
   display: flex;
@@ -20,8 +32,8 @@ body {
   align-items: center;
   gap: 30px;
   padding: 15px 0;
-  border-bottom: 2px solid #FF6A00;
   background: #0B0B0B;
+  position: relative;
 }
 
 .nav-link {
@@ -30,11 +42,24 @@ body {
   font-size: 1.5rem;
   padding: 8px 16px;
   transition: color 0.3s, background 0.3s;
+  position: relative;
 }
 
 .nav-link.active {
   color: #FFDEA8;
-  background: transparent;
+}
+
+/* Linia pod menu – zaokrąglona, nie przez całość */
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  height: 2px;
+  background: #FF6A00;
+  border-radius: 10px;
 }
 
 /* Kontener główny */
@@ -42,14 +67,18 @@ body {
   max-width: 1200px;
   margin: 30px auto;
   padding: 20px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 /* Tabela */
 .table-container {
+  flex: 1 1 400px;
   border: 2px solid #FF6A00;
   border-radius: 8px;
   overflow: hidden;
-  margin: 20px 0;
+  margin: 0;
 }
 
 table {
@@ -59,28 +88,51 @@ table {
 
 th {
   background: #242424;
-  padding: 12px;
+  padding: 10px 12px;
   text-align: left;
   font-size: 1.1rem;
+  font-weight: normal;
+  letter-spacing: 0.5px;
 }
 
 td {
-  padding: 12px;
+  padding: 10px 12px;
   border-top: 1px solid #333;
+  font-size: 1.05rem; /* większa czcionka */
 }
 
-/* Wykres kołowy */
+/* Wykres kołowy + dane obok */
+.chart-section {
+  flex: 1 1 400px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
 .chart-container {
   width: 100%;
-  max-width: 500px;
-  height: 500px;
-  margin: 20px auto;
+  max-width: 300px;
+  height: 300px;
+  margin: 0;
+}
+
+.data-list {
+  background: rgba(0,0,0,0.7);
+  padding: 15px;
+  border-left: 3px solid #FF6A00;
+  font-size: 0.95rem;
+  min-width: 200px;
+}
+
+.data-list p {
+  margin: 5px 0;
+  white-space: nowrap;
 }
 
 /* Mapa świata */
 .map-container {
   width: 100%;
-  height: 500px;
+  height: 400px;
   margin: 30px 0;
   background: #0B0B0B;
   position: relative;
@@ -94,19 +146,20 @@ td {
   stroke-width: 1;
 }
 
-/* Dane obok wykresu */
-.data-list {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: rgba(0,0,0,0.7);
-  padding: 15px;
-  border-left: 3px solid #FF6A00;
-  font-size: 0.9rem;
+/* Animacja przejścia między stronami */
+.page-transition {
+  animation: slideInRight 0.5s ease-out;
 }
 
-.data-list p {
-  margin: 5px 0;
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* Responsywność */
@@ -115,20 +168,13 @@ td {
     flex-direction: column;
     gap: 10px;
   }
-  .chart-container, .map-container {
-    height: 300px;
+  .container {
+    flex-direction: column;
   }
-}
-
-/* Mapa świata – zmień kolor wszystkich pathów na pomarańczowy */
-.map-container svg path {
-  fill: #FF6A00 !important;
-  stroke: #000000 !important;
-  stroke-width: 0.5px;
-}
-
-/* Jeśli SVG ma grupy lub klasy – ustaw dla wszystkich */
-.map-container svg * {
-  fill: #FF6A00 !important;
-  stroke: #000000 !important;
+  .chart-section {
+    flex-direction: column;
+  }
+  .data-list {
+    min-width: auto;
+  }
 }

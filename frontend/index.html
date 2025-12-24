@@ -7,7 +7,10 @@
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body class="page-transition">
+  <!-- Logo -->
+  <div class="logo">MILK QUANT</div>
+
   <!-- Navbar -->
   <div class="navbar">
     <a href="index.html" class="nav-link active">START</a>
@@ -20,9 +23,9 @@
       <table id="goldTable">
         <thead>
           <tr>
-            <th>Country</th>
-            <th>Reserves (tonnes)</th>
-            <th>% of Global</th>
+            <th>COUNTRY</th>
+            <th>RESERVES (TONNES)</th>
+            <th>% OF GLOBAL</th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -30,17 +33,17 @@
     </div>
 
     <!-- Wykres + dane obok -->
-    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+    <div class="chart-section">
       <div class="chart-container">
         <canvas id="goldChart"></canvas>
       </div>
       <div class="data-list" id="dataList"></div>
     </div>
+  </div>
 
-    <!-- Mapa świata -->
-    <div class="map-container">
-      <object type="image/svg+xml" data="world.svg" width="100%" height="100%"></object>
-    </div>
+  <!-- Mapa świata -->
+  <div class="map-container">
+    <object type="image/svg+xml" data="world.svg" width="100%" height="100%"></object>
   </div>
 
   <script src="script.js"></script>

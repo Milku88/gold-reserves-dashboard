@@ -13,7 +13,7 @@ fetch('/api/gold-reserves')
       tbody.innerHTML += row;
     });
 
-    // 2. Wykres kołowy
+    // 2. Wykres kołowy z napisami w segementach
     const ctx = document.getElementById('goldChart').getContext('2d');
     new Chart(ctx, {
       type: 'pie',
@@ -23,47 +23,56 @@ fetch('/api/gold-reserves')
           data: data.map(d => d.percent),
           backgroundColor: ['#FF6A00'],
           borderColor: '#000000',
-          borderWidth: 2
+          borderWidth: 1
         }]
       },
       options: {
         responsive: true,
         plugins: {
-          legend: { display: false }
+          legend: { display: false },
+          tooltip: { enabled: false } // wyłączamy tooltip
         },
         elements: {
           arc: {
             borderWidth: 0
           }
         }
-      }
+      },
+      plugins: [{
+        afterDraw: function(chart) {
+          const ctx = chart.ctx;
+          chart.data.datasets[0].data.forEach((datapoint, index) => {
+            const meta = chart.getDatasetMeta(0);
+            const arc = meta.data[index];
+            const startAngle = arc.startAngle;
+            const endAngle = arc.endAngle;
+            const midAngle = startAngle + (endAngle - startAngle) / 2;
+
+            const x = arc.x + Math.cos(midAngle) * (arc.outerRadius / 2);
+            const y = arc.y + Math.sin(midAngle) * (arc.outerRadius / 2);
+
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(midAngle);
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 10px Bebas Neue';
+            ctx.fillText(`${chart.data.labels[index]}`, 0, 0);
+            ctx.fillText(`${chart.data.datasets[0].data[index]}%`, 0, 15);
+            ctx.restore();
+          });
+        }
+      }]
     });
 
-    // 3. Dane obok wykresu
+    // 3. Dane obok wykresu (top 3)
     const dataList = document.getElementById('dataList');
-    data.slice(0, 3).forEach(item => {  // tylko top 3
+    data.slice(0, 3).forEach(item => {
       dataList.innerHTML += `<p>${item.country} – ${item.tonnes.toLocaleString()}T / ${item.percent}%</p>`;
     });
   });
 
-  paths.forEach(path => {
-  path.addEventListener('mouseenter', () => {
-    path.style.fill = '#FFDEA8'; // jasny pomarańcz
-  });
-  path.addEventListener('mouseleave', () => {
-    path.style.fill = '#FF6A00'; // normalny pomarańcz
-  });
-});
-
-// Zmień kolory mapy po załadowaniu
+// Animacja przejścia (jeśli jesteśmy na START)
 document.addEventListener('DOMContentLoaded', () => {
-  const svg = document.querySelector('.map-container svg');
-  if (svg) {
-    const paths = svg.querySelectorAll('path');
-    paths.forEach(path => {
-      path.style.fill = '#FF6A00';
-      path.style.stroke = '#000000';
-      path.style.strokeWidth = '0.5';
-    });
-  }
+  document.body.classList.add('page-transition');
 });
