@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Global Gold Reserves (2025)</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { text-align: center; color: #b8860b; }
+    .chart-container { width: 500px; height: 500px; margin: 20px auto; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌍 Global Gold Reserves Dashboard (2025)</h1>
+    <div class="chart-container">
+      <canvas id="goldChart"></canvas>
+    </div>
+    <table border="1" style="width:100%; text-align:center; margin-top:20px;">
+      <thead>
+        <tr><th>Country</th><th>Reserves (tonnes)</th><th>% of Global</th></tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
