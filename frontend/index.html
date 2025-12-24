@@ -3,57 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🌍 Global Gold Reserves Dashboard (2025)</title>
-  
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  
-  <!-- Chart.js -->
+  <title>MILK QUANT — Start</title>
+  <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-  <style>
-    body { 
-      font-family: 'Segoe UI', Tahoma, sans-serif; 
-      margin: 0; 
-      padding: 20px; 
-      background: #fafafa; 
-      color: #333;
-    }
-    .container { max-width: 1200px; margin: 0 auto; }
-    header { text-align: center; margin-bottom: 20px; }
-    h1 { color: #b8860b; margin: 10px 0; }
-    .price { font-size: 1.4em; color: #d4af37; margin: 10px 0; }
-    .chart-container { width: 100%; max-width: 600px; height: 500px; margin: 20px auto; }
-    #map { height: 500px; margin: 30px 0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { padding: 12px; text-align: center; border: 1px solid #ddd; }
-    th { background: #f5f5f5; }
-    tr:nth-child(even) { background: #fcfcfc; }
-  </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>🌍 Global Gold Reserves Dashboard (2025)</h1>
-      <div class="price" id="goldPrice">Loading gold price...</div>
-    </header>
-
-    <div class="chart-container">
-      <canvas id="goldChart"></canvas>
-    </div>
-
-    <div id="map"></div>
-
-    <table>
-      <thead>
-        <tr><th>Country</th><th>Reserves (tonnes)</th><th>% of Global</th></tr>
-      </thead>
-      <tbody id="tableBody"></tbody>
-    </table>
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="index.html" class="nav-link active">START</a>
+    <a href="strategy.html" class="nav-link">STRATEGY</a>
   </div>
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <div class="container">
+    <!-- Tabela -->
+    <div class="table-container">
+      <table id="goldTable">
+        <thead>
+          <tr>
+            <th>Country</th>
+            <th>Reserves (tonnes)</th>
+            <th>% of Global</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Wykres + dane obok -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+      <div class="chart-container">
+        <canvas id="goldChart"></canvas>
+      </div>
+      <div class="data-list" id="dataList"></div>
+    </div>
+
+    <!-- Mapa świata -->
+    <div class="map-container">
+      <object type="image/svg+xml" data="world.svg" width="100%" height="100%"></object>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
