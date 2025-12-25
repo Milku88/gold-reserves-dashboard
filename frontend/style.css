@@ -13,16 +13,27 @@ body {
   line-height: 1.6;
 }
 
-/* Logo MILK QUANT */
+/* Logo MILK / QUANT */
 .logo {
   position: absolute;
   top: 15px;
   left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: -5px;
+  z-index: 10;
+}
+
+.logo span {
   font-size: 1.8rem;
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #FFFFFF;
-  z-index: 10;
+}
+
+.logo .quant {
+  font-size: 1.4rem;
+  opacity: 0.8;
 }
 
 /* Menu nawigacyjne */
@@ -68,7 +79,7 @@ body {
   margin: 30px auto;
   padding: 20px;
   display: flex;
-  gap: 20px;
+  gap: 40px; /* ✅ Większy odstęp między tabelą a wykresem */
   flex-wrap: wrap;
 }
 
@@ -98,21 +109,21 @@ th {
 td {
   padding: 10px 12px;
   border-top: 1px solid #333;
-  font-size: 1.05rem; /* większa czcionka */
+  font-size: 1.05rem;
 }
 
 /* Wykres kołowy + dane obok */
 .chart-section {
-  flex: 1 1 400px;
+  flex: 1 1 500px; /* ✅ Większy kontener dla wykresu */
   display: flex;
-  gap: 20px;
+  gap: 30px; /* ✅ Większy odstęp */
   align-items: flex-start;
 }
 
 .chart-container {
   width: 100%;
-  max-width: 300px;
-  height: 300px;
+  max-width: 400px; /* ✅ Większy wykres */
+  height: 400px; /* ✅ Większy wykres */
   margin: 0;
 }
 
@@ -121,7 +132,7 @@ td {
   padding: 15px;
   border-left: 3px solid #FF6A00;
   font-size: 0.95rem;
-  min-width: 200px;
+  min-width: 250px;
 }
 
 .data-list p {

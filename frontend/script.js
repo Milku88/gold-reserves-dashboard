@@ -13,9 +13,9 @@ fetch('/api/gold-reserves')
       tbody.innerHTML += row;
     });
 
-    // 2. Wykres kołowy z napisami w segementach
+    // 2. Wykres kołowy z napisami i animacją
     const ctx = document.getElementById('goldChart').getContext('2d');
-    new Chart(ctx, {
+    const chart = new Chart(ctx, {
       type: 'pie',
       data: {
         labels: data.map(d => d.country),
@@ -23,7 +23,8 @@ fetch('/api/gold-reserves')
           data: data.map(d => d.percent),
           backgroundColor: ['#FF6A00'],
           borderColor: '#000000',
-          borderWidth: 1
+          borderWidth: 1,
+          hoverOffset: 10 // ✅ Segment się powiększa przy najechaniu
         }]
       },
       options: {
@@ -65,14 +66,35 @@ fetch('/api/gold-reserves')
       }]
     });
 
-    // 3. Dane obok wykresu (top 3)
+    // 3. Dane obok wykresu – WSZYSTKIE kraje
     const dataList = document.getElementById('dataList');
-    data.slice(0, 3).forEach(item => {
+    data.forEach(item => {
       dataList.innerHTML += `<p>${item.country} – ${item.tonnes.toLocaleString()}T / ${item.percent}%</p>`;
+    });
+
+    // 4. Animacja przy najechaniu – segment się powiększa + nazwa kraju
+    chart.options.plugins.tooltip = {
+      enabled: true,
+      callbacks: {
+        label: function(context) {
+          return `${context.label}: ${context.raw}%`;
+        }
+      }
+    };
+
+    // Dodaj event listener do wykresu
+    chart.canvas.addEventListener('mousemove', (e) => {
+      const activePoints = chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+      if (activePoints.length > 0) {
+        const index = activePoints[0].index;
+        const country = chart.data.labels[index];
+        const percent = chart.data.datasets[0].data[index];
+        // Możesz tu dodać dodatkową animację lub logikę
+      }
     });
   });
 
-// Animacja przejścia (jeśli jesteśmy na START)
+// Animacja przejścia
 document.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('page-transition');
 });
