@@ -11,6 +11,10 @@ body {
   color: #FFFFFF;
   font-family: 'Bebas Neue', sans-serif;
   line-height: 1.6;
+  transform: scale(1.2); /* ✅ Cała strona powiększona do 120% */
+  transform-origin: top left;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 /* Logo MILK / QUANT */
@@ -20,7 +24,7 @@ body {
   left: 20px;
   display: flex;
   flex-direction: column;
-  gap: -5px;
+  gap: -3px; /* ✅ Mniejszy odstęp między MILK a QUANT */
   z-index: 10;
 }
 
@@ -33,7 +37,18 @@ body {
 
 .logo .quant {
   font-size: 1.4rem;
-  opacity: 0.8;
+  color: #AAAAAA; /* ✅ QUANT szare */
+}
+
+/* Linia pod logo + menu */
+.logo::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #FF6A00;
 }
 
 /* Menu nawigacyjne */
@@ -45,6 +60,7 @@ body {
   padding: 15px 0;
   background: #0B0B0B;
   position: relative;
+  margin-top: 5px;
 }
 
 .nav-link {
@@ -79,7 +95,7 @@ body {
   margin: 30px auto;
   padding: 20px;
   display: flex;
-  gap: 40px; /* ✅ Większy odstęp między tabelą a wykresem */
+  gap: 40px;
   flex-wrap: wrap;
 }
 
@@ -112,32 +128,19 @@ td {
   font-size: 1.05rem;
 }
 
-/* Wykres kołowy + dane obok */
+/* Wykres kołowy */
 .chart-section {
-  flex: 1 1 500px; /* ✅ Większy kontener dla wykresu */
+  flex: 1 1 500px;
   display: flex;
-  gap: 30px; /* ✅ Większy odstęp */
+  gap: 30px;
   align-items: flex-start;
 }
 
 .chart-container {
   width: 100%;
-  max-width: 400px; /* ✅ Większy wykres */
-  height: 400px; /* ✅ Większy wykres */
+  max-width: 450px; /* ✅ Większy wykres */
+  height: 450px; /* ✅ Większy wykres */
   margin: 0;
-}
-
-.data-list {
-  background: rgba(0,0,0,0.7);
-  padding: 15px;
-  border-left: 3px solid #FF6A00;
-  font-size: 0.95rem;
-  min-width: 250px;
-}
-
-.data-list p {
-  margin: 5px 0;
-  white-space: nowrap;
 }
 
 /* Mapa świata */
@@ -175,6 +178,9 @@ td {
 
 /* Responsywność */
 @media (max-width: 768px) {
+  body {
+    transform: scale(1.0);
+  }
   .navbar {
     flex-direction: column;
     gap: 10px;
@@ -184,8 +190,5 @@ td {
   }
   .chart-section {
     flex-direction: column;
-  }
-  .data-list {
-    min-width: auto;
   }
 }
