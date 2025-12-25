@@ -13,9 +13,10 @@ fetch('/api/gold-reserves')
       tbody.innerHTML += row;
     });
 
-    // 2. Wykres kołowy – top 8 + Other
-    const top8Data = data.slice(0, 8); // top 8
-    const otherData = data.slice(8);   // pozostali
+    // 2. Wykres kołowy – wszystkie kraje ≥1% + Other
+    const filteredData = data.filter(d => d.percent >= 1.0); // tylko ≥1%
+    const top8Data = filteredData.slice(0, 8); // top 8
+    const otherData = filteredData.slice(8);   // pozostali
 
     // Generuj kolory – odcienie pomarańczowego
     const orangeShades = [
@@ -23,8 +24,8 @@ fetch('/api/gold-reserves')
       '#FFB600', '#FFC900', '#FFDC00', '#FFE900'
     ];
 
-    // Dla "Other" użyj szarego
-    const colors = [...orangeShades, '#CCCCCC'];
+    // "Other" – najjaśniejszy pomarańczowy
+    const colors = [...orangeShades, '#FF6A00']; // ✅ Other ma najjaśniejszy pomarańcz
 
     // Dane do wykresu
     const chartData = {
@@ -34,7 +35,7 @@ fetch('/api/gold-reserves')
         backgroundColor: colors,
         borderColor: '#000000',
         borderWidth: 1,
-        hoverOffset: 10 // ✅ Powiększenie przy najechaniu
+        hoverOffset: 10
       }]
     };
 
@@ -46,9 +47,7 @@ fetch('/api/gold-reserves')
         responsive: true,
         plugins: {
           legend: { display: false },
-          tooltip: {
-            enabled: false // wyłączamy domyślne tooltipy
-          }
+          tooltip: { enabled: false }
         },
         elements: {
           arc: {
@@ -76,10 +75,9 @@ fetch('/api/gold-reserves')
             ctx.fillStyle = '#FFFFFF';
             ctx.font = 'bold 10px Bebas Neue';
 
-            // Pokazuj nazwę tylko dla top 8
-            if (index < 8) {
+            // Pokazuj nazwę tylko dla top 8 (bez Japan)
+            if (index < 8 && chart.data.labels[index] !== 'Japan') {
               ctx.fillText(`${chart.data.labels[index]}`, 0, 0);
-              ctx.fillText(`${chart.data.datasets[0].data[index]}%`, 0, 15);
             }
 
             ctx.restore();
@@ -88,7 +86,9 @@ fetch('/api/gold-reserves')
       }]
     });
 
-    // 3. Animacja przy najechaniu – pokazuj info
+    // 3. Animacja przy najechaniu – pokazuj info raz, nie stackuj
+    let currentTooltip = null;
+
     chart.canvas.addEventListener('mousemove', (e) => {
       const activePoints = chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
       if (activePoints.length > 0) {
@@ -96,7 +96,13 @@ fetch('/api/gold-reserves')
         const country = chart.data.labels[index];
         const percent = chart.data.datasets[0].data[index];
 
-        // Pokazuj info w tooltipie (np. w dolnej części ekranu)
+        // Usuń poprzedni tooltip
+        if (currentTooltip) {
+          currentTooltip.remove();
+          currentTooltip = null;
+        }
+
+        // Utwórz nowy tooltip
         const tooltip = document.createElement('div');
         tooltip.style.position = 'absolute';
         tooltip.style.top = `${e.clientY + 10}px`;
@@ -109,11 +115,23 @@ fetch('/api/gold-reserves')
         tooltip.textContent = `${country} – ${percent.toFixed(1)}%`;
 
         document.body.appendChild(tooltip);
+        currentTooltip = tooltip;
 
         // Usuń po opuszczeniu myszy
         chart.canvas.addEventListener('mouseout', () => {
-          tooltip.remove();
+          if (currentTooltip) {
+            currentTooltip.remove();
+            currentTooltip = null;
+          }
         }, { once: true });
+      }
+    });
+
+    // 4. Usuń tooltip przy kliknięciu
+    document.addEventListener('click', () => {
+      if (currentTooltip) {
+        currentTooltip.remove();
+        currentTooltip = null;
       }
     });
   });

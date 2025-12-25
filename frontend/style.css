@@ -11,7 +11,7 @@ body {
   color: #FFFFFF;
   font-family: 'Bebas Neue', sans-serif;
   line-height: 1.6;
-  transform: scale(1.2); /* ✅ Cała strona powiększona do 120% */
+  transform: scale(1.2);
   transform-origin: top left;
   width: 100vw;
   overflow-x: hidden;
@@ -24,7 +24,7 @@ body {
   left: 20px;
   display: flex;
   flex-direction: column;
-  gap: -3px; /* ✅ Mniejszy odstęp między MILK a QUANT */
+  gap: -3px;
   z-index: 10;
 }
 
@@ -37,16 +37,16 @@ body {
 
 .logo .quant {
   font-size: 1.4rem;
-  color: #AAAAAA; /* ✅ QUANT szare */
+  color: #AAAAAA;
 }
 
-/* Linia pod logo + menu */
+/* Linia pomarańczowa – dochodzi do logo, ale nie pod nim */
 .logo::after {
   content: '';
   position: absolute;
   bottom: -5px;
-  left: 0;
-  width: 100%;
+  left: 70px; /* ✅ Zacznij po prawej stronie "QUANT" */
+  width: calc(100% - 90px); /* ✅ Krótsza linia z obu stron */
   height: 2px;
   background: #FF6A00;
 }
@@ -54,7 +54,7 @@ body {
 /* Menu nawigacyjne */
 .navbar {
   display: flex;
-  justify-content: center;
+  justify-content: center; /* ✅ Wyśrodkowane przyciski */
   align-items: center;
   gap: 30px;
   padding: 15px 0;
@@ -76,26 +76,13 @@ body {
   color: #FFDEA8;
 }
 
-/* Linia pod menu – zaokrąglona, nie przez całość */
-.navbar::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 40px);
-  height: 2px;
-  background: #FF6A00;
-  border-radius: 10px;
-}
-
 /* Kontener główny */
 .container {
   max-width: 1200px;
   margin: 30px auto;
   padding: 20px;
   display: flex;
-  gap: 40px;
+  gap: 60px; /* ✅ Większy odstęp między tabelą a wykresem */
   flex-wrap: wrap;
 }
 
@@ -138,8 +125,8 @@ td {
 
 .chart-container {
   width: 100%;
-  max-width: 450px; /* ✅ Większy wykres */
-  height: 450px; /* ✅ Większy wykres */
+  max-width: 450px;
+  height: 450px;
   margin: 0;
 }
 
